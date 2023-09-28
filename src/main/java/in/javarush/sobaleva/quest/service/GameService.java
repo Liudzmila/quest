@@ -1,48 +1,79 @@
 package in.javarush.sobaleva.quest.service;
 
 import in.javarush.sobaleva.quest.entity.Answer;
+import in.javarush.sobaleva.quest.entity.Game;
 import in.javarush.sobaleva.quest.entity.Question;
 import in.javarush.sobaleva.quest.repository.QuestionRepository;
+import in.javarush.sobaleva.quest.repository.QuestionRepositoryImpl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class QuestGameService {
-    private QuestionRepository questionRepository;
+public class GameService {
+    private Game game;
     private Question currentQuestion;
+    private final String jsonFilePath;
 
-    public QuestGameService(String jsonFilePath) {
-        questionRepository = new QuestionRepository(jsonFilePath);
-        currentQuestion = questionRepository.getQuestionById(1); // Начало квеста
+    public GameService(int gameId, String jsonFilePath) {
+        this.jsonFilePath = jsonFilePath;
+        initializeGame(gameId, jsonFilePath);
+    }
+
+    private void initializeGame(int gameId, String jsonFilePath) {
+        QuestionRepository repository = new QuestionRepositoryImpl("/" + jsonFilePath);
+        game = repository.getGameById(gameId);
+        List<Question> questions = game.getQuestions();
+        currentQuestion = questions.get(0);
     }
 
     public String getCurrentQuestionText() {
         return currentQuestion.getText();
     }
 
-    public Map<Integer, String> getCurrentQuestionAnswers() {
-        List<Answer> answers = currentQuestion.getAnswers();
-        Map<Integer, String> answerMap = new HashMap<>();
-
-        for (Answer answer : answers) {
-            answerMap.put(answer.getId(), answer.getText());
+    public void selectAnswer(int answerId) {
+        if (currentQuestion != null) {
+            for (Answer answer : currentQuestion.getAnswers()) {
+                if (answer.getId() == answerId) {
+                    int nextQuestionId = answer.getNextQuestionId();
+                    if (nextQuestionId > 0) {
+                        setCurrentQuestionById(nextQuestionId);
+                    } else {
+                        currentQuestion = null;
+                    }
+                    break;
+                }
+            }
         }
-
-        return answerMap;
     }
 
-    public void selectAnswer(int answerId) {
-        Answer selectedAnswer = currentQuestion.getAnswerById(answerId);
-
-        if (selectedAnswer != null) {
-            currentQuestion = questionRepository.getQuestionById(selectedAnswer.getNextQuestionId());
-        } else {
-            currentQuestion = null; // Если ответ не найден, завершаем игру
+    private void setCurrentQuestionById(int questionId) {
+        for (Question question : game.getQuestions()) {
+            if (question.getId() == questionId) {
+                currentQuestion = question;
+                break;
+            }
         }
     }
 
     public boolean isGameFinished() {
         return currentQuestion == null;
+    }
+
+    public List<Answer> getCurrentQuestionAnswers() {
+        return currentQuestion.getAnswers();
+    }
+
+    public String getGameName() {
+        return game.getGameName();
+    }
+
+    public void resetGame() {
+        initializeGame(game.getId(), jsonFilePath);
+    }
+
+    public String getCurrentQuestionImagePath() {
+        if (currentQuestion != null) {
+            return currentQuestion.getImagePath(game.getId(), currentQuestion.getId());
+        }
+        return null;
     }
 }
