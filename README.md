@@ -18,7 +18,7 @@ Before you get started, make sure you have the following prerequisites:
 1. Clone the repository to your local machine:
 
    ```shell
-   git clone https://github.com/your-username/quest.git
+   git clone https://github.com/Liudzmila/quest.git
 2. Navigate to the project directory:
     ```shell
    cd quest
