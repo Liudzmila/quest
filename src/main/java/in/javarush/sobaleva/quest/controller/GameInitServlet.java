@@ -57,7 +57,7 @@ public class GameInitServlet extends HttpServlet {
                 request.getRequestDispatcher("/game.jsp").forward(request, response);
                 return;
             }
-            response.sendRedirect(request.getContextPath() + "/game.jsp");
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
         } else {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
         }
