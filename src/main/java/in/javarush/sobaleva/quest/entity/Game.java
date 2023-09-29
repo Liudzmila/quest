@@ -26,7 +26,4 @@ public class Game {
         return questions;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
 }
