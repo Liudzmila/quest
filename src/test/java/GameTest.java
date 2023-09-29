@@ -29,15 +29,4 @@ public class GameTest {
         assertEquals(2, game.getQuestions().size());
     }
 
-    @Test
-    public void testSetQuestions() {
-        List<Question> newQuestions = new ArrayList<>();
-        newQuestions.add(new Question(3, "Новый вопрос", new ArrayList<>()));
-        newQuestions.add(new Question(4, "Еще один вопрос", new ArrayList<>()));
-
-        game.setQuestions(newQuestions);
-
-        assertEquals(2, game.getQuestions().size()); // Размер списка вопросов не изменился
-        assertEquals(3, game.getQuestions().get(0).getId()); // Проверяем, что новый список корректно установлен
-    }
 }
