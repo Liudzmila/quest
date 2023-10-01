@@ -12,7 +12,7 @@ public class GameLauncher {
      * then you can load games from a new file.
      */
     private static GameService gameService;
-    private static final String JSON_FILE_PATH = "/quest_logic.json";
+    private static final String JSON_FILE_PATH = "quest_logic.json";
     private static final int GAME_ID = 2;
 
     private GameLauncher() {

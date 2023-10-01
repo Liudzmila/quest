@@ -25,5 +25,4 @@ public class Game {
     public List<Question> getQuestions() {
         return questions;
     }
-
 }
