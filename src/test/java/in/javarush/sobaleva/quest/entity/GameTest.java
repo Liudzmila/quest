@@ -1,8 +1,5 @@
 package in.javarush.sobaleva.quest.entity;
 
-import in.javarush.sobaleva.quest.entity.Answer;
-import in.javarush.sobaleva.quest.entity.Game;
-import in.javarush.sobaleva.quest.entity.Question;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +13,6 @@ public class GameTest {
 
     @BeforeEach
     public void setUp() {
-        // Create a list of questions and answers
         List<Question> questions = new ArrayList<>();
 
         List<Answer> answers1 = new ArrayList<>();
@@ -29,8 +25,7 @@ public class GameTest {
         answers2.add(new Answer(2, "Answer 2.2", 5)); // Next question ID is 5
         questions.add(new Question(2, "Question 2", answers2));
 
-        // Create the Game object and assign it to the game field
-       game = new Game(1, "Test Game", questions);
+        game = new Game(1, "Test Game", questions);
     }
 
     @Test
